@@ -1,0 +1,183 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/mahasiswa": {
+            "get": {
+                "tags": [
+                    "Mahasiswa"
+                ],
+                "summary": "Dapatkan daftar semua mahasiswa",
+                "description": "Mengembalikan daftar semua mahasiswa",
+                "operationId": "getMahasiswa",
+                "responses": {
+                    "200": {
+                        "description": "Daftar mahasiswa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Mahasiswa"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Mahasiswa"
+                ],
+                "summary": "Simpan data mahasiswa baru",
+                "description": "Menyimpan data mahasiswa baru dan mengembalikan data mahasiswa yang disimpan",
+                "operationId": "storeMahasiswa",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nama",
+                                    "nim",
+                                    "email",
+                                    "jurusan"
+                                ],
+                                "properties": {
+                                    "nama": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "nim": {
+                                        "type": "string",
+                                        "example": "123456789"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "johndoe@example.com"
+                                    },
+                                    "jurusan": {
+                                        "type": "string",
+                                        "example": "Teknik Informatika"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Mahasiswa berhasil disimpan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Mahasiswa"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/mahasiswa/{id}": {
+            "delete": {
+                "tags": [
+                    "Mahasiswa"
+                ],
+                "summary": "Hapus data mahasiswa",
+                "description": "Menghapus data mahasiswa berdasarkan ID",
+                "operationId": "destroyMahasiswa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID mahasiswa yang akan dihapus",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Mahasiswa berhasil dihapus"
+                    },
+                    "404": {
+                        "description": "Mahasiswa tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Mahasiswa not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Mahasiswa": {
+                "title": "Mahasiswa",
+                "description": "Model Mahasiswa",
+                "properties": {
+                    "id": {
+                        "description": "ID mahasiswa",
+                        "type": "integer"
+                    },
+                    "nama": {
+                        "description": "Nama mahasiswa",
+                        "type": "string"
+                    },
+                    "nim": {
+                        "description": "Nomor Induk Mahasiswa",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Email mahasiswa",
+                        "type": "string"
+                    },
+                    "jurusan": {
+                        "description": "Jurusan mahasiswa",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Mahasiswa",
+            "description": "Mahasiswa"
+        }
+    ]
+}
